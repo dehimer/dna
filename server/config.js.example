@@ -1,0 +1,7 @@
+module.exports = {
+	"host"		:	"localhost",
+	"username"	:	"",
+	"password"	:	"",
+	"database"	:	"",
+	"admin_password":	"admin"
+}
