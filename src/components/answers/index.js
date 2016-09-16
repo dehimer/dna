@@ -38,7 +38,21 @@ export default class Answers {
 	genItemMarkup (answer) {
 		const {id, text, sent} = answer;
 
+		const date 	= new Date(id); 
+		let hour	= date.getHours();
+		let minute  = date.getMinutes(); 
+		if(hour.toString().length == 1) {
+			hour = '0'+hour;
+		}
+		if(minute.toString().length == 1) {
+			minute = '0'+minute;
+		}
+		const time = hour+':'+minute;
+
 		return `<tr class="answers__item" data-id="${id}">
+			<td>
+				${time}
+			</td>
 			<td>
 				<div class="answers__item-text">
 					${text}
