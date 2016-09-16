@@ -55,8 +55,12 @@ const common = {
 		loaders: [
 			{ test: /\.js$/, exclude: /node_modules/, loaders: (TARGET === 'dev')?['babel-loader']:['babel-loader'] },
 			{ test: /\.(png|jpg)$/, loader: 'file-loader?name=images/[name].[ext]' },
-			{ test: /\.woff$/, loader: 'file-loader?name=fonts/[name].[ext]' },
-			{ test: /\.json$/, loader: 'json-loader'}
+			// { test: /\.woff$/, loader: 'file-loader?name=fonts/[name].[ext]' },
+			{ test: /\.json$/, loader: 'json-loader'},
+			{
+                test: /\.(eot|svg|ttf|woff|woff2)$/,
+                loader: 'file?name=fonts/[name].[ext]'
+            }
 		]
 	},
 	postcss: (webpack) => {

@@ -1,3 +1,5 @@
+import $ from 'jquery';
+
 const EventEmitter = require('events');
 class CAN extends EventEmitter {}
 const can = new CAN();
@@ -5,10 +7,14 @@ const can = new CAN();
 import './styles/base.css';
 import './styles/user.css';
 
-let rootEl = document.getElementById('root');
+import Question from './components/question/index.js'
 
-console.log(!!can);
-console.log(!!rootEl);
+let rootEl = $('#root');
+
+const question = new Question({can, rootEl});
+
+question.render();
+
 
 document.ontouchmove = function(event){
     event.preventDefault();

@@ -4,7 +4,6 @@ const http = require('http');
 const fs = require('fs');
 
 const express = require('express');
-const passport = require('passport');
 
 var config   = require('./config');
 
@@ -28,14 +27,6 @@ if(process.env.npm_lifecycle_event === 'dev')
 	}));
 };
 
-passport.serializeUser(function(user, cb) {
-	cb(null, user);
-});
-
-passport.deserializeUser(function(obj, cb) {
-	cb(null, obj);
-});
-
 app.use(require('cookie-parser')());
 app.use(require('body-parser').urlencoded({ extended: true }));
 app.use(require('express-session')({ secret: 'keyboard cat', resave: true, saveUninitialized: true }));
@@ -52,6 +43,14 @@ app.get(/^\/admin$/, (req, res) => {
 	res.sendFile(__dirname + '/client/admin.html');
 });
 
+app.get(/^\/question$/, (req, res) => {
+	res.send(config.question || '?');
+});
+
+app.get(/^\/answer$/, (req, res) => {
+	console.log(req.query);
+	res.send('answerReceived');
+});
 
 
 app.get('*', (req, res) => {
