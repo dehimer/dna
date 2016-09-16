@@ -1,7 +1,11 @@
 module.exports = {
-	"host"		:	"localhost",
+	"targethost":	"http://192.168.0.100/",
+	"waittargethost": false,
+	"admin_password":	"123",
+	"question"	: 	"Для открытия миру Лимпарзы<br> я готов(а)",
+	"showtwitch": 	true,
+	"twitchchannel"	: 	"silvername",
 	"username"	:	"",
 	"password"	:	"",
 	"database"	:	"",
-	"admin_password":	"admin"
 }
