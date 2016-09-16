@@ -108,7 +108,7 @@ html {
 		900px 900px;
 	background-attachment: fixed;
 
-	animation:bganimation 30s infinite;
+	/*animation:bganimation 30s infinite;*/
 }
 body { height: 9999px;}
 

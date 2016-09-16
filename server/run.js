@@ -3,16 +3,20 @@ require("babel-register");
 const http = require('http');
 const fs = require('fs');
 
+const Datastore = require('nedb');
+const answersDb = new Datastore({filename:'answers', autoload:true });
+
+
 const express = require('express');
 
-var config   = require('./config');
+const config  = require('./config');
 
 const app = express();
+
 
 /* hot reload for webpack */
 if(process.env.npm_lifecycle_event === 'dev')
 {
-
 	console.log('WHR');
   	const webpack = require('webpack');
 	const webpackConfig = require('./../webpack/common.config.js');
@@ -32,6 +36,9 @@ app.use(require('body-parser').urlencoded({ extended: true }));
 app.use(require('express-session')({ secret: 'keyboard cat', resave: true, saveUninitialized: true }));
 
 
+
+
+
 /* serve static */
 app.use(express.static(__dirname + '/client'));
 
@@ -40,7 +47,11 @@ app.get(/^\/$/, (req, res) => {
 });
 
 app.get(/^\/admin$/, (req, res) => {
-	res.sendFile(__dirname + '/client/admin.html');
+		res.sendFile(__dirname + '/client/admin.html');
+	});
+
+app.get(/^\/twitch$/, (req, res) => {
+	res.sendFile(__dirname + '/client/twitch.html');
 });
 
 /* queries */
@@ -49,20 +60,66 @@ app.get(/^\/question$/, (req, res) => {
 });
 
 app.get(/^\/answer$/, (req, res) => {
-	console.log(req.query);
-	res.send('answerReceived');
+	console.log(req.query.text);
+	const answer = req.query.text;
+	if(answer){
+		answersDb.insert({id:+(new Date()), text:answer, sent:false})
+		res.send('answerReceived');
+	}
 });
 
-app.get(/^\/twitchenabled$/, (req, res) => {
-	res.send(config.showtwitch);
+app.get(/^\/twitchchannel$/, (req, res) => {
+	res.send(config.showtwitch && config.twitchchannel);
+});
+
+app.get(/^\/serverip$/, (req, res) => {
+	res.send(req.headers.host);
 });
 
 
 app.get('*', (req, res) => {
-	res.redirect('/');
+	// if(!helpers.validUrl(req.url)){
+		res.redirect('/');
+	// }
 });
 
 const server = new http.Server(app);
 const PORT = process.env.PORT || 3000;
 
 server.listen(PORT);
+
+
+
+const io = require('socket.io')(server);
+
+io.on('connection', (socket) => {
+
+	let isadmin = false;
+
+	socket.emit('auth:check');
+
+	socket.on('auth:submit', (pw) => {
+		isadmin = config.admin_password == pw;
+		if(isadmin){
+			socket.emit('auth:success');
+		}
+	})
+
+	socket.on('answers:all', () => {
+		console.log('answers:all');
+		if(isadmin) {
+			answersDb.find({}).sort({ id: -1 }).exec((err, allAnswers)=>{
+				console.log(allAnswers);
+				socket.emit('answers:all', allAnswers);
+			});
+		}
+	})
+
+	socket.on('answers:send', (answerId) => {
+		answersDb.update({id: answerId}, {$set:{sent: true}}, {}, (err, numUpdated) => {
+			if(numUpdated === 1){
+				socket.emit('answers:sent', answerId);
+			}
+		})
+	})
+});

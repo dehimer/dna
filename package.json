@@ -58,6 +58,7 @@
     "events": "^1.1.1",
     "express-session": "^1.11.3",
     "json-loader": "^0.5.4",
+    "nedb": "^1.8.0",
     "node-static": "^0.7.7",
     "passport": "^0.2.2",
     "passport-local": "^1.0.0"

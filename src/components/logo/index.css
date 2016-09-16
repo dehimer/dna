@@ -2,5 +2,6 @@
 	position: absolute;
 	right:25px;
 	bottom: 25px;
-	max-height: 80px; 
+	max-height: 80px;
+	z-index: 1; 
 }
