@@ -5,7 +5,4 @@ module.exports = {
 	"question"	: 	"Для открытия миру Лимпарзы<br> я готов(а)",
 	"showtwitch": 	true,
 	"twitchchannel"	: 	"silvername",
-	"username"	:	"",
-	"password"	:	"",
-	"database"	:	"",
 }
