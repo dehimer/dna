@@ -24,6 +24,13 @@ export default class Server {
 			this.can.emit('answers:sent', answerId);
 		});
 
+		socket.on('answers:new', (newAnswer) => {
+			this.can.emit('answers:new', newAnswer);
+		});
+
+
+		
+
 		// this.can.on('auth:submit', (pw) => {
 		// 	socket.emit()
 		// })

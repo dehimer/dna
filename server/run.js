@@ -1,5 +1,6 @@
 require("babel-register");
 
+const request = require('request');
 const http = require('http');
 const fs = require('fs');
 
@@ -38,7 +39,6 @@ app.use(require('express-session')({ secret: 'keyboard cat', resave: true, saveU
 
 
 
-
 /* serve static */
 app.use(express.static(__dirname + '/client'));
 
@@ -59,11 +59,15 @@ app.get(/^\/question$/, (req, res) => {
 	res.send(config.question || '?');
 });
 
+let newAnswerEmit = function() {};
+
 app.get(/^\/answer$/, (req, res) => {
 	console.log(req.query.text);
-	const answer = req.query.text;
-	if(answer){
-		answersDb.insert({id:+(new Date()), text:answer, sent:false})
+	const answerText = req.query.text;
+	if(answerText){
+		const answer = {id:+(new Date()), text:answerText, sent:false};
+		newAnswerEmit(answer);
+		answersDb.insert(answer)
 		res.send('answerReceived');
 	}
 });
@@ -91,7 +95,9 @@ server.listen(PORT);
 
 
 const io = require('socket.io')(server);
-
+newAnswerEmit = function (newAnswer) {
+	io.emit('answers:new', newAnswer);
+}
 io.on('connection', (socket) => {
 
 	let isadmin = false;
@@ -116,10 +122,25 @@ io.on('connection', (socket) => {
 	})
 
 	socket.on('answers:send', (answerId) => {
-		answersDb.update({id: answerId}, {$set:{sent: true}}, {}, (err, numUpdated) => {
-			if(numUpdated === 1){
-				socket.emit('answers:sent', answerId);
+		answersDb.findOne({id: answerId}, (err, answer) => {
+			
+			const send = () => {
+				answersDb.update({id: answerId}, {$set:{sent: true}}, {}, (err, numUpdated) => {
+					if(numUpdated === 1){
+						socket.emit('answers:sent', answerId);
+					}
+				})
 			}
+
+			if(!config.waittargethost){
+				send();
+			}
+
+			request(config.targethost+'?message='+answer.text, function (error, response, body) {
+			  	if (!error && response.statusCode == 200) {
+			  		send();
+				}
+			});
 		})
 	})
 });
