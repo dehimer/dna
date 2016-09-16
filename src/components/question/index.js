@@ -9,7 +9,7 @@ export default class Question {
 	submit () {
 
 		const answer = this.answerEl.val();
-		alert(answer);
+
 		if(!answer){
 			return;
 		}
@@ -77,7 +77,7 @@ export default class Question {
 				</tr>	
 			</div>`;
 
-			this.rootEl.html(markup);
+			this.rootEl.append(markup);
 
 			this.blockEl = this.rootEl.find('.question');
 			this.formEl = this.blockEl.find('.question-form');
