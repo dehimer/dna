@@ -19,7 +19,7 @@ export default class Question {
 			this.resultEl.removeClass('question-result--hide');
 
 			setTimeout(()=>{
-				// this.blockEl.remove();
+				this.blockEl.remove();
 			}, 1500)
 			this.can.emit('question:answered');
 		});
