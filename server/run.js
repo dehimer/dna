@@ -43,6 +43,7 @@ app.get(/^\/admin$/, (req, res) => {
 	res.sendFile(__dirname + '/client/admin.html');
 });
 
+/* queries */
 app.get(/^\/question$/, (req, res) => {
 	res.send(config.question || '?');
 });
@@ -50,6 +51,10 @@ app.get(/^\/question$/, (req, res) => {
 app.get(/^\/answer$/, (req, res) => {
 	console.log(req.query);
 	res.send('answerReceived');
+});
+
+app.get(/^\/twitchenabled$/, (req, res) => {
+	res.send(config.showtwitch);
 });
 
 
