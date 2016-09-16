@@ -1,4 +1,5 @@
 import $ from 'jquery';
+import IScroll from 'iscroll';
 
 import './index.css';
 
@@ -32,11 +33,13 @@ export default class Answers {
 		this.blockEl.find(`.answers__item[data-id="${id}"]`).find('.answers__send').addClass('answers__send--blocked');
 	}
 	addNew (answer) {
-		this.listEl.prepend(this.genItemMarkup(answer));
+		this.listEl.find('.answers__header').after(this.genItemMarkup(answer));
 		this.bindSendClick(this.listEl.find(`.answers__item[data-id="${answer.id}"]`));
+		this.iscroll.refresh();
 	}
 	genItemMarkup (answer) {
 		const {id, text, sent} = answer;
+
 
 		const date 	= new Date(id); 
 		let hour	= date.getHours();
@@ -88,9 +91,23 @@ export default class Answers {
 			<table class='answers'>
 				<tr>
 					<td>
+						<div style="height:100vh;overflow:hidden;">
 						<table class='answers__list'>
+							<tr class="answers__header">
+								<td>
+									Время
+								</td>
+								<td style="text-align:left;">
+									Фраза
+								</td>
+								<td>
+									Действие
+								</td>
+							</tr>
+
 							${answersMarkup}
 						</table>
+						</div>
 					</td>
 				</tr>
 			</table>`
@@ -99,6 +116,11 @@ export default class Answers {
 
 		this.blockEl = this.rootEl.find('.answers');
 		this.listEl = this.blockEl.find('.answers__list');
+
+		this.iscroll = new IScroll(this.listEl.parent()[0], {
+			mouseWheel: true,
+			scrollbars: true
+		});
 
 		this.bindSendClick(this.listEl.find('.answers__item'));
 	}

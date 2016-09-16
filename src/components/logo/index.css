@@ -4,4 +4,6 @@
 	bottom: 25px;
 	max-height: 80px;
 	z-index: 1; 
+	pointer-events: none;
+	cursor: none;
 }

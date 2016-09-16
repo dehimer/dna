@@ -62,7 +62,7 @@ app.get(/^\/question$/, (req, res) => {
 let newAnswerEmit = function() {};
 
 app.get(/^\/answer$/, (req, res) => {
-	console.log(req.query.text);
+	// console.log(req.query.text);
 	const answerText = req.query.text;
 	if(answerText){
 		const answer = {id:+(new Date()), text:answerText, sent:false};
@@ -112,10 +112,10 @@ io.on('connection', (socket) => {
 	})
 
 	socket.on('answers:all', () => {
-		console.log('answers:all');
+		// console.log('answers:all');
 		if(isadmin) {
 			answersDb.find({}).sort({ id: -1 }).exec((err, allAnswers)=>{
-				console.log(allAnswers);
+				// console.log(allAnswers);
 				socket.emit('answers:all', allAnswers);
 			});
 		}

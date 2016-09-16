@@ -62,7 +62,7 @@ export default class Auth {
 		</table>`;
 		console.log(this.rootEl.length);
 
-		this.rootEl.html(markup);
+		this.rootEl.append(markup);
 		this.blockEl = this.rootEl.find('.auth');
 		this.pwEl = this.blockEl.find('.auth__form-input-password');
 		this.submitEl = this.blockEl.find('.auth__form-input-submit');

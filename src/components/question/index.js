@@ -8,7 +8,7 @@ export default class Question {
 	}
 	submit () {
 
-		const answer = this.answerEl.val();
+		const answer = this.answerEl.val().substr(0, 30);
 
 		if(!answer){
 			return;
