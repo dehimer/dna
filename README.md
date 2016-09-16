@@ -1,6 +1,17 @@
 # dna
 Part of an application.
 
+Инструкция:
+
+1. Распаковка
+	npm install
+2. Настройка
+	скопировать файл config/config.js.example в config/config.js и настроить под себя
+3. Сборка
+	npm run build
+4. Запуск
+	node server/run.js
+
 
 Пользователь передаёт ответы через обычный GET
 Администратор синхронизирован с базой через socket.io
