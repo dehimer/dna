@@ -97,10 +97,8 @@ html, body {
 
 html {
 	background: 
-		radial-gradient(ellipse at center, rgba(0,0,255,0.3) 0%, rgba(0,0,0,0) 70%), /* niebieski */
-		radial-gradient(ellipse at center, rgba(255,0,0,0.3) 0%, rgba(0,0,0,0) 70%), /*czerwony */
-		radial-gradient(ellipse at center, rgba(0,255,0,0.3) 0%, rgba(0,0,0,0) 70%) /*zielony */
-		#c3d7db;
+		radial-gradient(ellipse at center, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%), /* niebieski */
+		#08314d;
 	background-repeat: 
 		no-repeat, 
 		no-repeat, 
@@ -111,7 +109,7 @@ html {
 		900px 900px;
 	background-attachment: fixed;
 
-	animation:bganimation 30s infinite;
+	animation:bganimation 100s infinite;
 }
 body { height: 9999px;}
 
