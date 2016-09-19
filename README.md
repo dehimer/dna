@@ -26,9 +26,9 @@ Part of an application.
 Пользователь передаёт ответы через обычный GET
 Администратор синхронизирован с базой через socket.io
 
-<pre>
 * TODO
 
+<pre>
 	1.	a bootstrap
 	2.	gradient background
 	3.	файл с параметрами
