@@ -26,7 +26,7 @@ Part of an application.
 Пользователь передаёт ответы через обычный GET
 Администратор синхронизирован с базой через socket.io
 
-* TODO
+*TODO
 
 <pre>
 	1.	a bootstrap
